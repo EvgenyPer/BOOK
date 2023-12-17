@@ -1,0 +1,63 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title Book Store
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css')
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@500;600;700;900&family=Open+Sans&display=swap" rel="stylesheet")
+    link(rel='stylesheet' type='text/css' href='/bundle/main.css')
+  body
+    header.header 
+      .container-header 
+        h1.h1-name Bookshop
+        .menu 
+           
+            a(href="#").menu__p Books
+           
+            a(href="#").menu__p audiobooks
+            
+            a(href="#").menu__p Stationery & gifts
+            
+            a(href="#").menu__p blog
+            
+        .icons 
+          img(src="/src/images/user.svg" alt="user")
+          img(src="/src/images/search.svg", alt="search")
+          a.container-basket
+            img(src="/src/images/shop-bag.svg", alt="shop-bar")
+          <!-- span.active-basket -->
+    main.main 
+      .container-main 
+        img.banner-01#banner(src="/src/images/banner-01.png", alt="banner-01")
+        .promo-01 
+          p.promo-01__p Change old book on new
+          img.promo-01__img(src="/src/images/arrow-right.svg", alt="arrow-right")
+        .promo-02
+          p.promo-02__p top 100 books 2022
+          img.promo-02__img(src="/src/images/arrow-right.svg", alt="arrow-right")
+        .slider-dots
+          .slider-dots__dot-1.active-dot
+          .slider-dots__dot-2 
+          .slider-dots__dot-3
+        .book-cards 
+          aside.aside
+            ul.list
+              li.list__item.list__item-active Architecture
+                .active-point
+              li.list__item Art & Fashion
+              li.list__item Biography
+              li.list__item Business
+              li.list__item Crafts & Hobbies
+              li.list__item Drama
+              li.list__item Fiction
+              li.list__item Food & Drink
+              li.list__item Health & Wellbeing
+              li.list__item History & Politics
+              li.list__item Humor
+              li.list__item Poetry
+              li.list__item Psychology
+              li.list__item Science
+              li.list__item Technology
+              li.list__item Travel & Maps
+        button.load-more__btn Load more

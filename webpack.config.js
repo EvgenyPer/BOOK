@@ -1,35 +1,53 @@
-const path = require('path');  //библиотека для пути (js)
-const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // для плагина css, стили прописываются в отдельном файле, а не в тэге
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // минимизатор для scc
-//const ESLintPlugin = require('eslint-webpack-plugin'); // для ESlint
-
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
-    entry: path.resolve(__dirname, 'index.js'),    //исходный файл
+    mode: 'production',
+    plugins: [new MiniCssExtractPlugin(),
+              new HtmlWebpackPlugin({
+                template: './src/index.pug',
+                filename: 'index.html'
+              }),
+              new ESLintPlugin({
+                fix: true
+              }),
+    ],
+
+    entry: path.resolve(__dirname, 'src/TS', 'index.ts'),
     output: {
-        path: path.resolve(__dirname, 'bundle'), //output называем папку в которую собираем
-        filename: 'main.js',                      // main.js называем файл в котором собираем
-    },
-    mode: 'production',   // переключение между Dev и Prod и будет ли собранный файл минифицирован (dev=norm, prod=minific...)
-    plugins: [new MiniCssExtractPlugin()], //, new ESLintPlugin({fix: true}) // вместо (options) прописываем ({fix: true}) 
-    module: {
-        rules: [            // правила для сборщикак css
-          { test: /\.scss$/i,       // regExp для пропуска определённых файлов
-           use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] }  // с начало преобразовывает css-loader, потом style-loader
-        ]
-      },
-      devServer: {
-        static: {
-          directory: path.join(__dirname, 'bundle'), //webserver 
-        },
-      },
-  
-      optimization: {   //этим свойством мы переписываем дефолтные настройки, необходимо дописать в minimizer - '...'
-        minimizer: [
-          '...',        // это означает что мы дополняем конфиг, а не перезаписываем (например js минификацию)
-          new CssMinimizerPlugin(),
-        ],
+        path: path.resolve(__dirname, 'bundle'),
+        filename: 'main.js',
+        clean: true
       },
 
-    
-};
+    module: {
+        rules: [
+            { test: /\.s[ac]ss$/i,
+              use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'] },
+            
+            { test: /\.pug$/,
+              loader: 'pug-loader',
+              options: {
+                pretty: true
+              }  
+            },
+
+            {
+              test: /\.tsx?$/,
+              use: 'ts-loader',
+              exclude: /node_modules/,
+            },
+        ],
+    },
+
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js'],
+    },
+
+    optimization: {
+        minimizer: [`...`, new CssMinimizerPlugin()],
+    }
+}
